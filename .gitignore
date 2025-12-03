@@ -1,0 +1,56 @@
+# ============================
+# Python cache / build files
+# ============================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ============================
+# Virtual environments
+# ============================
+venv/
+.venv/
+
+# ============================
+# VS Code settings
+# ============================
+.vscode/
+
+# ============================
+# Streamlit cache
+# ============================
+.streamlit/
+
+# ============================
+# OS / System files
+# ============================
+.DS_Store
+Thumbs.db
+
+# ============================
+# Logs
+# ============================
+*.log
+
+# ============================
+# Project Generated Files
+# ============================
+results/                 # Contains generated CSVs, benchmark results
+notebooks/               # Jupyter notebook outputs (optional)
+*.ipynb_checkpoints
+
+# ============================
+# Optional: Ignore test datasets
+# Uncomment if you do NOT want to push your raw images
+# ============================
+# ReverseWay Bill-20251129T145929Z-1-001/
+# *.jpg
+# *.jpeg
+# *.png
+
+# ============================
+# Environment / Credentials
+# ============================
+.env
+.env.*
