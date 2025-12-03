@@ -20,7 +20,6 @@ The core objective is to extract text lines containing specific patterns (e.g., 
 The main goal of this project is to build an **automated extraction engine** that:
 - Detects text regardless of orientation (0°, 90°, -90°)
 - Recovers readable text from faded or thermal labels
-- Distinguishes between similar characters (e.g., `1` vs `l`, `0` vs `o`)
 - Provides an interactive interface for testing and validation
 
 ---
@@ -36,7 +35,6 @@ The system utilizes advanced preprocessing and logic to ensure accuracy. Key fea
 | **Adaptive Binarization** | Applies **Otsu's thresholding** to recover text from faded/thermal labels. |
 | **Padding Protection** | Adds whitespace borders to prevent edge-text cropping during rotation. |
 | **Dual-Mode Regex** | Prioritizes **Strict** pattern matching (Middle `_1_`) but falls back to **Loose** matching. |
-| **Auto-Correction** | Context-aware logic to fix common OCR confusions (e.g., `0` vs `o`). |
 
 ---
 
@@ -53,7 +51,6 @@ shipping-label-ocr/
 ├── test_images/           # Dataset: Folder containing waybill images
 ├── results/               # Output: Generated accuracy metrics
 ├── benchmark.py           # Script: Runs validation against ground truth
-├── run_app.bat            # Config: Windows startup script (Prevents crashes)
 └── Testcheck.csv          # Data: Ground Truth CSV for benchmarking
 
 Core Logic Breakdown
