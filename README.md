@@ -124,7 +124,7 @@ source venv/bin/activate
 
 pip install -r requirements.txt
 
-8. Future Improvements
+Future Improvements
 GPU Acceleration: Enable CUDA support for faster processing on supported hardware to reduce inference time per image.
 
 Deep Learning Classification: Train a lightweight classifier (e.g., MobileNet) to detect the label type before extraction, allowing for more specific region-of-interest targeting.
