@@ -43,22 +43,38 @@ The system utilizes advanced preprocessing and logic to ensure accuracy. Key fea
 The codebase is modularized for maintainability and scalability:
 
 ```text
-shipping-label-ocr/
-├── src/
-│   ├── app.py             # Frontend: Streamlit Web Interface
-│   ├── ocr_engine.py      # Core Logic: OCR Class, Regex, and Heuristics
-│   ├── preprocessing.py   # Utilities: Image Rotation, Binarization, Padding
-├── test_images/           # Dataset: Folder containing waybill images
-├── results/               # Output: Generated accuracy metrics
-├── benchmark.py           # Script: Runs validation against ground truth
-└── Testcheck.csv          # Data: Ground Truth CSV for benchmarking
+
 
 Core Logic Breakdown
 ocr_engine.py: The brain of the application. It orchestrates the extraction process, iterates through image rotations, and applies regex validation.
 
-preprocessing.py: Handles visual data preparation, including resizing, contrast enhancement (CLAHE), and padding.
+Preprocessing Techniques
+To maximize OCR accuracy, a robust image processing pipeline was implemented using OpenCV:
 
-benchmark.py: Automates validation by comparing model output against the Testcheck.csv ground truth.
+Multi-Angle Scanning: The system iteratively rotates the image at 0°, 90°, and -90°. This effectively handles vertically printed text on shipping labels without requiring a complex orientation detection model.
+
+Adaptive Binarization: Otsu's thresholding is applied to convert the image to high-contrast black and white. This is critical for recovering text from faded thermal labels where ink density is low.
+
+Padding: A white border is added around the image before rotation. This prevents text located at the extreme edges of the label from being cut off during the rotation process.
+
+Text Extraction Logic
+A intelligent regex-based filtering system is used to identify the correct ID among all text detected:
+
+Dual-Mode Regex:
+
+Strict Mode: Searches for the pattern Digits + Marker + Suffix (e.g., 12345_1_abc). This is the priority match.
+
+Loose Mode: A fallback pattern that looks for IDs ending in _1.
+
+Contextual Correction: A post-processing step fixes common OCR character confusions based on context. For example, if the digit 0 appears surrounded by letters in the suffix, it is automatically corrected to the letter o.
+
+5. Accuracy Calculation Methodology
+Accuracy is calculated by comparing the model's extracted output against a manually verified "Ground Truth" CSV file.
+
+Formula: Accuracy = (Total Correct Matches / Total Images) * 100
+
+Match Criteria: A match is considered "Correct" if the expected ground truth ID is exactly present within the extracted text string. Valid negatives (where both ground truth and prediction are "N/A") are also counted as correct.
+
 
 ## **Performance Report**
 
@@ -107,3 +123,10 @@ python3 -m venv venv
 source venv/bin/activate
 
 pip install -r requirements.txt
+
+8. Future Improvements
+GPU Acceleration: Enable CUDA support for faster processing on supported hardware to reduce inference time per image.
+
+Deep Learning Classification: Train a lightweight classifier (e.g., MobileNet) to detect the label type before extraction, allowing for more specific region-of-interest targeting.
+
+API Deployment: Wrap the engine in a FastAPI or Flask service to allow for programmatic access and integration into larger logistical systems.
